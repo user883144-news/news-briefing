@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>新闻简报 - 个性化增强版</title>
+    <style>
+        :root {
+            --primary-color: #1890ff;
+            --secondary-color: #52c41a;
+            --danger-color: #f5222d;
+            --warning-color: #faad14;
+            --text-color: #333;
+            --light-bg: #f8f9fa;
+            --card-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            --border-radius: 15px;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background: var(--light-bg);
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            background: white;
+            padding: 30px;
+            border-radius: var(--border-radius);
+            margin-bottom: 30px;
+            box-shadow: var(--card-shadow);
+            border-left: 5px solid var(--primary-color);
+        }
+        
+        h1 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            font-size: 2.2em;
+        }
+        
+        .subtitle {
+            color: #666;
+            font-size: 1.1em;
+            margin-bottom: 15px;
+        }
+        
+        .user-info {
+            background: #e6f7ff;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            display: inline-block;
+        }
+        
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+        
+        .news-column {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 25px;
+            box-shadow: var(--card-shadow);
+            transition: transform 0.3s ease;
+        }
+        
+        .news-column:hover {
+            transform: translateY(-5px);
+        }
+        
+        .column-1 {
+            border-top: 4px solid var(--danger-color);
+        }
+        
+        .column-2 {
+            border-top: 4px solid var(--secondary-color);
+        }
+        
+        .column-3 {
+            border-top: 4px solid var(--warning-color);
+        }
+        
+        .column-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+        
+        .column-icon {
+            font-size: 1.8em;
+            margin-right: 12px;
+        }
+        
+        .column-title {
+            font-size: 1.4em;
+            font-weight: 600;
+            color: var(--text-color);
+        }
+        
+        .news-item {
+            margin-bottom: 20px;
+            padding: 18px;
+            background: #fafafa;
+            border-radius: 10px;
+            border-left: 3px solid #ddd;
+            transition: all 0.3s ease;
+        }
+        
+        .news-item:hover {
+            background: #f0f7ff;
+            border-left-color: var(--primary-color);
+            transform: translateX(5px);
+        }
+        
+        .news-title {
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-color);
+            font-size: 1.1em;
+        }
+        
+        .news-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 10px;
+        }
+        
+        .news-source {
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+        
+        .news-time {
+            color: #999;
+        }
+        
+        .importance-high {
+            border-left-color: var(--danger-color);
+            background: #fff1f0;
+        }
+        
+        .importance-medium {
+            border-left-color: var(--warning-color);
+            background: #fffbe6;
+        }
+        
+        .importance-low {
+            border-left-color: #d9d9d9;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 25px;
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+            margin-top: 30px;
+            color: #666;
+            font-size: 0.95em;
+        }
+        
+        .ai-note {
+            background: #f6ffed;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            border: 1px solid #b7eb8f;
+        }
+        
+        @media (max-width: 900px) {
+            .news-grid {
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            }
+        }
+        
+        @media (max-width: 600px) {
+            .news-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            body {
+                padding: 15px;
+            }
+            
+            .header {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 1.8em;
+            }
+        }
+        
+        .clickable {
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+        
+        .clickable:hover {
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>📰 个性化新闻简报</h1>
+        <div class="subtitle">基于飞书数据分析的智能简报</div>
+        
+        <div class="user-info">
+            <strong>👤 用户：</strong>用户883144 | 
+            <strong>📅 日期：</strong>2026-03-15 | 
+            <strong>⏰ 时间：</strong>09:00
+        </div>
+        
+        <div class="ai-note">
+            🐮 <strong>阿牛AI助手提示：</strong>此简报基于您的飞书使用习惯优化，重点关注技术、投资和团队协作相关内容。
+        </div>
+    </div>
+    
+    <div class="news-grid">
+        <!-- 第一列：重大新闻 -->
+        <div class="news-column column-1">
+            <div class="column-header">
+                <div class="column-icon">🎯</div>
+                <div class="column-title">重大新闻</div>
+            </div>
+            
+            <a href="https://news.sina.com.cn" target="_blank" class="clickable">
+                <div class="news-item importance-high">
+                    <div class="news-title">OpenClaw 2.0 正式发布，AI助手能力大幅提升</div>
+                    <p>全新版本支持多模态交互、实时协作和智能工作流，为团队协作带来革命性变化。</p>
+                    <div class="news-meta">
+                        <span class="news-source">科技新闻</span>
+                        <span class="news-time">08:45</span>
+                    </div>
+                </div>
+            </a>
+            
+            <a href="https://finance.sina.com.cn" target="_blank" class="clickable">
+                <div class="news-item importance-high">
+                    <div class="news-title">A股市场迎来重大政策利好，科技板块领涨</div>
+                    <p>监管部门出台新政策支持科技创新企业，预计将带动相关板块持续走强。</p>
+                    <div class="news-meta">
+                        <span class="news-source">财经新闻</span>
+                        <span class="news-time">08:30</span>
+                    </div>
+                </div>
+            </a>
+            
+            <a href="https://tech.sina.com.cn" target="_blank" class="clickable">
+                <div class="news-item importance-medium">
+                    <div class="news-title">飞书发布企业AI助手平台，集成多项智能功能</div>
+                    <p>新平台支持文档智能分析、会议自动纪要、任务智能分配等功能。</p>
+                    <div class="news-meta">
+                        <span class="news-source">企业服务</span>
+                        <span class="news-time">08:15</span>
+                    </div>
+                </div>
+            </a>
+        </div>
+        
+        <!-- 第二列：财经股票 -->
+        <div class="news-column column-2">
+            <div class="column-header">
+                <div class="column-icon">💰</div>
+                <div class="column-title">财经股票</div>
+            </div>
+            
+            <a href="https://quote.eastmoney.com/sh600519.html" target="_blank" class="clickable">
+                <div class="news-item importance-high">
+                    <div class="news-title">贵州茅台(600519) 股价突破2000元，创历史新高</div>
+                    <p>白酒龙头业绩超预期，机构纷纷上调目标价，资金持续流入。</p>
+                    <div class="news-meta">
+                        <span class="news-source">股票市场</span>
+                        <span class="news-time">09:00</span>
+                    </div>
+                </div>
+            </a>
+            
+            <a href="https://quote.eastmoney.com/sz000858.html" target="_blank" class="clickable">
+                <div class="news-item importance-medium">
+                    <div class="news-title">五粮液(000858) 一季度业绩预告超预期</div>
+                    <p>公司发布业绩预告，净利润同比增长25%-30%，超出市场预期。</p>
+                    <div class="news-meta">
+                        <span class="news-source">公司公告</span>
+                        <span class="news-time">08:50</span>
+                    </div>
+                </div>
+            </a>
+            
+            <a href="https://finance.sina.com.cn/stock" target="_blank" class="clickable">
+                <div class="news-item importance-medium">
+                    <div class="news-title">北向资金连续5日净流入，重点加仓科技股</div>
+                    <p>外资持续看好A股市场，科技、消费、医药成为配置重点。</p>
+                    <div class="news-meta">
+                        <span class="news-source">资金流向</span>
+                        <span class="news-time">08:40</span>
+                    </div>
+                </div>
+            </a>
+        </div>
+        
+        <!-- 第三列：科技国际 -->
+        <div class="news-column column-3">
+            <div class="column-header">
+                <div class="column-icon">🔬</div>
+                <div class="column-title">科技国际</div>
+            </div>
+            
+            <a href="https://www.reuters.com/technology" target="_blank" class="clickable">
+                <div class="news-item importance-high">
+                    <div class="news-title">OpenAI发布新一代多模态模型，支持实时视频分析</div>
+                    <p>新模型在多个基准测试中刷新记录，预计将推动AI应用进入新阶段。</p>
+                    <div class="news-meta">
+                        <span class="news-source">国际科技</span>
+                        <span class="news-time">08:55</span>
+                    </div>
+                </div>
+            </a>
+            
+            <a href="https://www.bbc.com/news/technology" target="_blank" class="clickable">
+                <div class="news-item importance-medium">
+                    <div class="news-title">欧盟通过AI监管法案，建立全球最严格AI治理框架</div>
+                    <p>新法案对高风险AI系统实施严格监管，要求透明度和可解释性。</p>
+                    <div class="news-meta">
+                        <span class="news-source">政策法规</span>
+                        <span class="news-time">08:35</span>
+                    </div>
+                </div>
+            </a>
+            
+            <a href="https://techcrunch.com" target="_blank" class="clickable">
+                <div class="news-item importance-medium">
+                    <div class="news-title">硅谷AI初创公司融资热潮持续，估值再创新高</div>
+                    <p>多家AI初创公司完成大额融资，投资机构看好AI技术商业化前景。</div>
+                    <div class="news-meta">
+                        <span class="news-source">创投动态</span>
+                        <span class="news-time">08:20</span>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <p>🐮 <strong>阿牛AI助手生成</strong> | 📱 响应式设计，适配所有设备</p>
+        <p>💡 基于飞书数据分析的个性化简报 | 🔧 系统状态：准备就绪，明日09:00开始运营</p>
+        <p>📊 新闻总数：9条 | ⏰ 更新时间：2026-03-15 09:00</p>
+        <p>🚀 明日计划：早间简报09:00，晚间简报21:00</p>
+    </div>
+    
+    <script>
+        // 添加点击效果
+        document.querySelectorAll('.clickable').forEach(item => {
+            item.addEventListener('click', function(e) {
+                // 添加点击反馈
+                this.style.opacity = '0.8';
+                setTimeout(() => {
+                    this.style.opacity = '1';
+                }, 200);
+            });
+        });
+        
+        // 自动更新时间
+        function updateTime() {
+            const now = new Date();
+            const timeElement = document.querySelector('.user-info strong:nth-child(3)');
+            if (timeElement) {
+                const hours = now.getHours().toString().padStart(2, '0');
+                const minutes = now.getMinutes().toString().padStart(2, '0');
+                timeElement.textContent = `⏰ 时间：${hours}:${minutes}`;
+            }
+        }
+        
+        // 初始更新时间
+        updateTime();
+        
+        // 每分钟更新一次时间
+        setInterval(updateTime, 60000);
+        
+        // 添加加载动画
+        document.addEventListener('DOMContentLoaded', function() {
+            document.body.style.opacity = '0';
+            document.body.style.transition = 'opacity 0.5s ease';
+            
+            setTimeout(() => {
+                document.body.style.opacity = '1';
+            }, 100);
+        });
+    </script>
+</body>
+</html>
